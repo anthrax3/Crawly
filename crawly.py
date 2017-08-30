@@ -277,27 +277,30 @@ def main():
             ' Simple Web Application Screnshot Script', 'blue', attrs=['bold']),
         epilog='''Usage:\r\n  sudo python crawly.py -H ''' + colored("192.168.1.1/24", "blue",
                                                                      attrs=['bold']) + ''' -port ''' + colored(
-            "80,443,8080", "blue", attrs=['bold']) + ''' -c ''' + colored("files/folders/all", "blue",
-                                                                          attrs=['bold']) + ''' -t ''' + colored("20",
+            "80,443,8080", "blue", attrs=['bold']) + ''' -T ''' + colored("20", 'blue',
+                                                                          attrs=['bold']) + ''' -e ''' + colored("jpg",
                                                                                                                  'blue',
-                                                                                                                 attrs=['bold']) + ''' -e ''' + colored(
-            "jpg", 'blue', attrs=['bold']) + ''' -s ''' + colored("200,401", 'blue', attrs=['bold']) +
-               '''\r\n  sudo python crawly.py -F ''' + colored("address.txt", "blue",
-                                                               attrs=['bold']) + ''' -port ''' + colored("80,443,8080",
-                                                                                                         "blue", attrs=[
-                'bold']) + ''' -c ''' + colored("files/folders/all", "blue", attrs=['bold']) + ''' -t ''' + colored(
-            "20", 'blue', attrs=['bold']) + ''' -e ''' + colored("jpg", 'blue', attrs=['bold']) + ''' -s ''' + colored(
+                                                                                                                 attrs=[
+                                                                                                                     'bold']) + ''' -s ''' + colored(
+            "200,401", 'blue', attrs=['bold']) + '''\r\n  sudo python crawly.py -F ''' + colored("address.txt", "blue",
+                                                                                                 attrs=[
+                                                                                                     'bold']) + ''' -port ''' + colored(
+            "80,443,8080", "blue", attrs=['bold']) + ''' -T ''' + colored("20", 'blue',
+                                                                          attrs=['bold']) + ''' -e ''' + colored("jpg",
+                                                                                                                 'blue',
+                                                                                                                 attrs=[
+                                                                                                                     'bold']) + ''' -s ''' + colored(
             "200,401", 'blue', attrs=['bold']),
         formatter_class=argparse.RawTextHelpFormatter)
 
-    parser.add_argument('-H', '--host', help='HOSTNAME', required=False)
-    parser.add_argument('-port', help='PORT NUMBER e.g: 80,8080,443', required=True)
-    parser.add_argument('-P', '--path', help='PATH e.g:/robots.txt', required=False)
-    parser.add_argument('-F', '--file', help='FILE e.g:/root/Desktop/host_file.txt', required=False)
-    parser.add_argument('-T', help='CRAWLY THREADS, default:5', required=False)
-    parser.add_argument('-d', '--dirs', help='Start DirSearch Tool', required=False)
-    parser.add_argument('-s', '--sc', help='STATUS CODE e.g: 200,300', required=False)
-    parser.add_argument('-e', '--ext', help='FILE EXTENSION e.g: jpg,png, default:png', required=False)
+    parser.add_argument('-H', '--host', help='Hostname', required=False)
+    parser.add_argument('-port', help='Port e.g: 80,8080,443', required=True)
+    parser.add_argument('-P', '--path', help='Path e.g:/robots.txt', required=False)
+    parser.add_argument('-F', '--file', help='File e.g:/root/Desktop/host_file.txt', required=False)
+    parser.add_argument('-T', help='Threads, default:5', required=False)
+    parser.add_argument('-d', '--dirs', help='Start DirSearch tool', required=False)
+    parser.add_argument('-s', '--sc', help='Status code e.g: 200,300', required=False)
+    parser.add_argument('-e', '--ext', help='File extension e.g: jpg,png, default:png', required=False)
     if len(sys.argv) == 1:
         parser.print_help()
         sys.exit(0)
