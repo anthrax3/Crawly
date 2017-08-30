@@ -11,6 +11,8 @@ Web Application Screenshot Tool
 
 >Python 2.x
 
+>Please start Crawly with SUDO user
+
 #Prerequisites
 >sudo bash setup.sh
 
