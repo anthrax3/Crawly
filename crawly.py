@@ -2,7 +2,7 @@
 
 '''
  Name: Crawly v1.5
- Author: Eran,Vaknin
+ Author: Eran.Vaknin
  '''
 
 import sys
