@@ -17,11 +17,11 @@ Web Application Screenshot Tool
 #Usage
 >Start Crawly to scan range of IP's to ports 80,443,8080,8888, filter only 200 OK responses, and save png files.
 
->Start Crawly to scan list of Hostnames from file to ports 80,443,8080,8888, perform Dirsearch on each of the results.
-
 ```sh
 $sudo python crawly.py -H 192.168.1.0/24 -port 80,443,8080,8888 -s 200 -e png
 ```
+
+>Start Crawly to scan list of Hostnames from file to ports 80,443,8080,8888, perform Dirsearch on each of the results.
 
 ```sh
 $sudo python crawly.py -F hosts.txt -port 80,443,8080,8888 -dirs
