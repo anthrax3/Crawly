@@ -9,7 +9,7 @@ Web Application Screenshot Tool
 #System Requirements
 >Linux
 
->Python 2.x
+>Python 2.7.*
 
 >Please start Crawly with SUDO user
 
@@ -17,10 +17,10 @@ Web Application Screenshot Tool
 >sudo bash setup.sh
 
 #Usage
->Start Crawly to scan range of IP's to ports 80,443,8080,8888, filter only 200 OK responses, and save png files.
+>Start Crawly to scan range of IP's to ports 80,443,8080,8888 using 20 threads, filter only 200 OK responses, and save png files.
 
 ```sh
-$sudo python crawly.py -H 192.168.1.0/24 -port 80,443,8080,8888 -s 200 -e png
+$sudo python crawly.py -H 192.168.1.0/24 -port 80,443,8080,8888 -T 20 -s 200 -e png
 ```
 
 >Start Crawly to scan list of Hostnames from file to ports 80,443,8080,8888, perform Dirsearch on each of the results.

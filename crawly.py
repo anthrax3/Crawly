@@ -1,6 +1,9 @@
 # /usr/bin/python
 
-''' Crawly V1.5 Simple Web Application Script '''
+'''
+ Name: Crawly v1.5
+ Author: Eran,Vaknin
+ '''
 
 import sys
 import os
@@ -17,9 +20,7 @@ from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from string import Template
 import subprocess, time
-import signal
 
-from pprint import pprint
 
 
 # SCAN FUNC
@@ -153,9 +154,8 @@ def export(t7,dirfile):
 
     for path, subdirs, files in os.walk(t7):
         for name in files:
-            temppath = re.search('/ss/.+', path)
-            str = '<div><a href="#"><img class="img-fluid img-thumbnail" src="'+os.path.join(name.split('-')[1], name)+'" alt=""></a></div>'
-            imgpath.append(str)
+            html_t = '<div><a href="#"><img class="img-fluid img-thumbnail" src="'+os.path.join(name.split('-')[1], name)+'" alt=""></a></div>'
+            imgpath.append(html_t)
 
     try:
         subprocess.Popen("cp -r "+dir_path+"/template/* "+t7+"/", shell=True, stdout=subprocess.PIPE).stdout.read()
@@ -175,10 +175,12 @@ def export(t7,dirfile):
     print colored(" [-] Report at http://127.0.0.1:8081 ", "yellow", attrs=[])
 
     try:
-        process = subprocess.Popen("cd "+t7+"/ && "+"python -m SimpleHTTPServer 8081", shell=True)
+        proc = subprocess.Popen("cd "+t7+"/ && "+"python -m SimpleHTTPServer 8081", shell=True)
         raw_input(" [-] Press ctrl+c any key to stop server...")
     finally:
         time.sleep(2)
+        proc.kill()
+        proc.kill()
         print " [-] Exiting Crawly..."
 
 
@@ -192,7 +194,6 @@ def check_root():
 # CLEANUP FUNC
 def cleanup(dirpath):
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    print "test"
     if os.path.exists(dir_path + '/temp/' + dirpath):
         shutil.rmtree(dir_path + '/temp/' + dirpath)
 
@@ -214,6 +215,7 @@ def initiate_dirs(tf, extension, dir_path):
                 stdout=sys.stdout, stdin=subprocess.PIPE)
             sub.communicate()
         except:
+            time.sleep(5)
             sub.kill()
 
 
@@ -235,7 +237,7 @@ def check_ip(ip):
 
 def update_dirsearch():
     FNULL = open(os.devnull, 'w')
-    process = subprocess.Popen("cd dirsearch && git pull", shell=True, stdout=FNULL, stderr=subprocess.STDOUT)
+    subprocess.Popen("cd dirsearch && git pull", shell=True, stdout=FNULL, stderr=subprocess.STDOUT)
 
 # MAIN FUNC
 def main():
@@ -263,14 +265,11 @@ def main():
     global bigip
     jobs = []
     bigip = list()
-    newbigip = list()
     times = time.strftime("%d.%H.%M.%S")
     dir_path = os.path.dirname(os.path.realpath(__file__))
     ipregex = re.compile(r'(https?:\/\/)?(?:\d{1,3}\.){3}\d{1,3}(?:/\d\d?)?')
     urlregex = re.compile(r'(https?:\/\/)?([\da-zA-Z\.-]+)\.([a-zA-Z\.]{2,6})?')
     drs = None
-    # need to fix it
-    dthreads = 1
 
     # ARGPARSER ARGUMENTS
     parser = argparse.ArgumentParser(
@@ -321,9 +320,9 @@ def main():
         extension = args.ext
     else:
         extension = "png"
-    # define dirsearch
-    if args.dirs:
+    if args.dirs is not None:
         drs = 1
+
 
     if not os.path.exists(dir_path + '/temp'):
         os.makedirs(dir_path + '/temp')
@@ -395,7 +394,7 @@ def main():
             p.start()
         [p.join() for p in jobs]
 
-        # CrawlyBuster Detected
+        # DirSearch Detected
         if drs is not None:
             initiate_dirs(tf, extension, dir_path)
             export(dir_path + "/ss/" + str(tf), str(times))
@@ -458,7 +457,7 @@ def main():
             p.start()
         [p.join() for p in jobs]
 
-        # CrawlyBuster Detected
+        # DirSearch Detected
         if drs is not None:
             initiate_dirs(tf, extension, dir_path)
             export(dir_path + "/ss/" + str(tf), str(times))
@@ -468,7 +467,7 @@ def main():
             merge_results("scan", str(times))
             export(dir_path + "/ss/" + str(tf), str(times))
 
-            # HOST SCAN DETECTED
+    # HOST SCAN DETECTED
     elif args.host and re.match(urlregex, args.host) and not args.file:
         temp = re.match(urlregex, args.host).group()
         if "http://" in temp:
@@ -498,7 +497,6 @@ def main():
         num_ip = sum(1 for line in bigip)
         if int(threads) >= int(num_ip):
             print colored(" [-] Crawly Short Scan Detected", "yellow", attrs=[])
-            threads = 1
         print ""
         print colored("[+] Crawly Scan Results: ", "green", attrs=['bold'])
         print colored(" [+] Results Folder: ", "yellow", attrs=[]) + colored(dir_path + "/ss/" + str(host), "blue",
@@ -506,7 +504,7 @@ def main():
 
         scan(bigip, args.port.split(","), path, statuscode, tf, False, extension, str(times))
 
-        # CrawlyBuster Detected
+        # DirSearch Detected
         if drs is not None:
             initiate_dirs(tf, extension, dir_path)
             export(dir_path + "/ss/" + str(tf), str(times))
@@ -519,8 +517,6 @@ def main():
         print colored("[!] Check Arguments And Try Again!", "red", attrs=['bold'])
         sys.exit(0)
 
-    print str(times)
-    # cleanup(dirfile)
 
 if __name__ == '__main__':
     main()
