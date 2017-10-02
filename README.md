@@ -33,5 +33,5 @@ $sudo python crawly.py -F hosts.txt -port 80,443,8080,8888 -dirs
 > Added Dirsearch ability to scan default dirs and files on the targets
 
 #Future Work
->
+> Add Proxy Mode 
 
